@@ -11,30 +11,50 @@
 
 call plug#begin()
 
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-commentary'
-" Plug 'tpope/vim-vinegar'
-Plug 'rakr/vim-one'
-Plug 'junegunn/goyo.vim'
-Plug 'mattn/emmet-vim'
-Plug 'airblade/vim-gitgutter'
-Plug 'scrooloose/nerdtree'
-Plug 'scrooloose/syntastic'
-" Markdown support
-Plug 'godlygeek/tabular'
-Plug 'plasticboy/vim-markdown'
+Plug 'itchyny/lightline.vim'                                  " status line
+Plug 'mengelbrecht/lightline-bufferline'                      " lightlinr tabs
+Plug 'tpope/vim-surround'                                     " adds surround operator to vim
+Plug 'tpope/vim-commentary'                                   " comment toggle
+Plug 'rakr/vim-one'                                           " ONE theme
+Plug 'junegunn/goyo.vim'                                      " zen mode
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }           " fuzzy finder
+Plug 'junegunn/fzf.vim'                                       " fuzzy finder
+Plug 'mattn/emmet-vim'                                        " html snippets
+Plug 'airblade/vim-gitgutter'                                 " git change indicators in sidebar
+Plug 'scrooloose/nerdtree'                                    " file tree
+Plug 'scrooloose/syntastic'                                   " syntax checker
+Plug 'alvan/vim-closetag'                                     " auto close tags
+Plug 'godlygeek/tabular'                                      " markdown tables
+Plug 'plasticboy/vim-markdown'                                " markdown support
 
 " Deoplete
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'wokalski/autocomplete-flow'
-" For func argument completion
-Plug 'Shougo/neosnippet'
-Plug 'Shougo/neosnippet-snippets'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " code completion
+Plug 'wokalski/autocomplete-flow'                             " javscript for deoplete
+Plug 'Shougo/neosnippet'                                      " snippet support
+Plug 'Shougo/neosnippet-snippets'                             " default snippets for neosnippet
 let g:deoplete#enable_at_startup = 1
 
 call plug#end()
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                               LIGHTLINE                               "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+let g:lightline = {
+      \ 'colorscheme': 'one',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ], [ 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ 'tabline': {
+      \   'left': [ ['buffers'] ]
+      \ },
+      \ 'component_expand': {
+      \   'buffers': 'lightline#bufferline#buffers'
+      \ },
+      \ 'component_type': {
+      \   'buffers': 'tabsel'
+      \ }
+      \ }
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                               COLOR SCHEME                            "
@@ -65,17 +85,6 @@ highlight Normal ctermbg=NONE
 highlight nonText ctermbg=NONE 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                               AIRLINE                                 "
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" let g:airline_theme='one'
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#left_alt_sep = '|'
-
-let g:airline_left_sep=''
-let g:airline_right_sep=''
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                             GENERAL SETTINGS                          "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -93,22 +102,11 @@ set clipboard=unnamed                   " Use the system clipboard
 set expandtab shiftwidth=2              " Press <tab>, get two spaces
 set list listchars=tab:▸▸,trail:·       " Show `▸▸` for tabs: 	, `·` for tailing whitespace: 
 set mouse=a                             " Enable mouse mode
-
+set showtabline=2                       " always show tabline
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                           Explorer                              "
+"                           NERDTree                                    "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" let g:netrw_banner = 0
-" let g:netrw_liststyle = 3
-" let g:netrw_browse_split = 4
-" let g:netrw_altv = 1
-" let g:netrw_winsize = 25
-" augroup ProjectDrawer
-"   autocmd!
-"   autocmd VimEnter * :Vexplore
-" augroup END
-
-" nnoremap <leader>b :Vex<CR>
 
 " Start NERDTree and put the cursor back in the other window.
 " autocmd VimEnter * NERDTree | wincmd p
@@ -116,7 +114,7 @@ set mouse=a                             " Enable mouse mode
 " close NERDTree when a file is opened
 let NERDTreeQuitOnOpen = 1
 
-nnoremap <leader>b :NERDTreeToggle<CR>
+nnoremap <silent> <c-b> :NERDTreeToggle<CR>
 nnoremap <leader>f :NERDTreeFind<CR>
 
 " Exit Vim if NERDTree is the only window left.
@@ -137,7 +135,7 @@ autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_
 autocmd BufNewFile,BufRead *.md set filetype=markdown
 
 " Hide and format markdown elements like **bold**
-autocmd FileType markdown set conceallevel=2
+" autocmd FileType markdown set conceallevel=2
 
 " Set spell check to British English
 autocmd FileType markdown setlocal spell spelllang=en_gb
