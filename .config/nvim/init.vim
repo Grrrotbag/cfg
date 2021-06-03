@@ -21,6 +21,18 @@ Plug 'junegunn/goyo.vim'
 Plug 'mattn/emmet-vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/syntastic'
+" Markdown support
+Plug 'godlygeek/tabular'
+Plug 'plasticboy/vim-markdown'
+
+" Deoplete
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'wokalski/autocomplete-flow'
+" For func argument completion
+Plug 'Shougo/neosnippet'
+Plug 'Shougo/neosnippet-snippets'
+let g:deoplete#enable_at_startup = 1
 
 call plug#end()
 
@@ -99,12 +111,12 @@ set mouse=a                             " Enable mouse mode
 " nnoremap <leader>b :Vex<CR>
 
 " Start NERDTree and put the cursor back in the other window.
-autocmd VimEnter * NERDTree | wincmd p
+" autocmd VimEnter * NERDTree | wincmd p
 
 " close NERDTree when a file is opened
 let NERDTreeQuitOnOpen = 1
 
-nnoremap <leader>n :NERDTreeToggle<CR>
+nnoremap <leader>b :NERDTreeToggle<CR>
 nnoremap <leader>f :NERDTreeFind<CR>
 
 " Exit Vim if NERDTree is the only window left.
@@ -114,6 +126,43 @@ autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTr
 " If another buffer tries to replace NERDTree, put it in the other window, and bring back NERDTree.
 autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 |
     \ let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                             Markdown                                  "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" https://secluded.site/vim-as-a-markdown-editor/
+
+" Treat all .md files as markdown
+autocmd BufNewFile,BufRead *.md set filetype=markdown
+
+" Hide and format markdown elements like **bold**
+autocmd FileType markdown set conceallevel=2
+
+" Set spell check to British English
+autocmd FileType markdown setlocal spell spelllang=en_gb
+
+" Configuration for vim-markdown
+let g:vim_markdown_conceal = 2
+let g:vim_markdown_conceal_code_blocks = 0
+let g:vim_markdown_math = 1
+let g:vim_markdown_toml_frontmatter = 1
+let g:vim_markdown_frontmatter = 1
+let g:vim_markdown_strikethrough = 1
+let g:vim_markdown_autowrite = 1
+let g:vim_markdown_edit_url_in = 'tab'
+let g:vim_markdown_follow_anchor = 1
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                           Javascript                                  "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Use prettier
+autocmd FileType javascript set formatprg=prettier\ --stdin
+
+" Format on save
+autocmd BufWritePre *.js :normal gggqG
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                             Mappings                                  "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -128,7 +177,8 @@ nnoremap <leader>` :source $MYVIMRC<CR>
 nnoremap <tab> :b#<CR>
 
 " <leader> / to comment/uncomment
-nmap <leader>/ gcc
+nmap <leader>/ gcc      " single line
+xmap <leader>/ gc       " visual block
 
 " Distraction free mode
 map <leader>g :Goyo<CR>
