@@ -50,6 +50,7 @@ source $ZSH/oh-my-zsh.sh
 # ==============================================================================
 # Enable command auto-correction.
 # ENABLE_CORRECTION="true"
+export BAT_THEME="OneHalfDark"
 
 # ==============================================================================
 # ALIASES
@@ -60,7 +61,7 @@ source $ZSH/oh-my-zsh.sh
 # For a full list of active aliases, run `alias`.
 
 alias zshconfig="code ~/.zshrc"
-alias ohmyzsh="code ~/.oh-my-zsh"
+alias ohmyzsh="cMarkdownode ~/.oh-my-zsh"
 alias cat="bat"
 alias la="ls -a"
 alias ll="ls -la"
@@ -76,20 +77,33 @@ source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # ==============================================================================
-# NVM
+# NVMMarkdown
 # ==============================================================================
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+# To customize Markdownprompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# ==============================================================================
+# FZF
+# ==============================================================================
+
+if type rg %> /dev/null; then
+  export FZF_DEFAULT_COMMAND='rg --files'
+  export FZF_DEFAULT_OPTS='-m --height 50% --border'
+fi
+
+# source /usr/share/fzf/completion.zsh
+# source /usr/share/fzf/key-bindings.zsh
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # ==============================================================================
 # Oracle Instanclient
 # http://mikelynchgames.com/software-development/installing-oracle-instant-client-and-sqlplus-on-osx/
 # install via homebrew
-# https://vanwollingen.nl/install-oracle-instant-client-and-sqlplus-using-homebrew-a233ce224bf
+# https://vanwollingenMarkdown.nl/install-oracle-instant-client-and-sqlplus-using-homebrew-a233ce224bf
 # Homebrew tap
 # https://github.com/InstantClientTap/homebrew-instantclient
 # ==============================================================================
@@ -97,3 +111,4 @@ export ORACLE_HOME=/opt/homebrew/Cellar/instantclient-basic/19.8.0.0.0dbru
 export DYLD_LIBRARY_PATH=$ORACLE_HOME
 export LD_LIBRARY_PATH=$ORACLE_HOME
 export TNS_ADMIN=$HOME/etc
+
