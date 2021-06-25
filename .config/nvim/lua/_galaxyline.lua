@@ -2,31 +2,61 @@ local vim = vim
 local gl = require('galaxyline')
 
 local colors = {
-    bg = '#292D38',
-    fg = '#FCFDFF',
+    -- bg = '#292D38',
+    -- bg = '#212434',
+    -- fg = '#FCFDFF',
     section_bg = '#4A4B64',
-    white = '#FFFFFF',
-    yellow = '#DCDCAA',
-    dark_yellow = '#D7BA7D',
-    cyan = '#4EC9B0',
-    green = '#608B4E',
-    light_green = '#B5CEA8',
-    string_orange = '#CE9178',
-    orange = '#FF8800',
-    purple = '#C586C0',
-    magenta = '#D16D9E',
+    -- white = '#FFFFFF',
+    -- yellow = '#DCDCAA',
+    -- dark_yellow = '#D7BA7D',
+    -- cyan = '#4EC9B0',
+    -- green = '#608B4E',
+    -- light_green = '#B5CEA8',
+    -- string_orange = '#CE9178',
+    -- orange = '#FF8800',
+    -- purple = '#C586C0',
+    -- magenta = '#D16D9E',
     grey = '#858585',
-    blue = '#569CD6',
-    vivid_blue = '#4FC1FF',
-    light_blue = '#9CDCFE',
-    red = '#D16969',
-    error_red = '#F44747',
-    info_yellow = '#FFCC66'
+    -- blue = '#569CD6',
+    -- vivid_blue = '#4FC1FF',
+    -- light_blue = '#9CDCFE',
+    -- red = '#D16969',
+    -- error_red = '#F44747',
+    -- info_yellow = '#FFCC66'
+
+    -- bg_dark = "#1f2335",
+    bg = "#24283b",
+    bg_highlight = "#292e42",
+    terminal_black = "#414868",
+    fg = "#c0caf5",
+    fg_dark = "#a9b1d6",
+    fg_gutter = "#3b4261",
+    dark3 = "#545c7e",
+    comment = "#565f89",
+    dark5 = "#737aa2",
+    blue0 = "#3d59a1",
+    blue = "#7aa2f7",
+    cyan = "#7dcfff",
+    blue1 = "#2ac3de",
+    blue2 = "#0db9d7",
+    blue5 = "#89ddff",
+    blue6 = "#B4F9F8",
+    blue7 = "#394b70",
+    magenta = "#bb9af7",
+    purple = "#9d7cd8",
+    orange = "#ff9e64",
+    yellow = "#e0af68",
+    green = "#9ece6a",
+    green1 = "#73daca",
+    green2 = "#41a6b5",
+    teal = "#1abc9c",
+    red = "#f7768e",
+    red1 = "#db4b4b"
 }
 
 local mode_color_schema = {
-  n = colors.vivid_blue,
-  i = colors.info_yellow,
+  n = colors.blue,
+  i = colors.green,
   c = colors.orange,
   V = colors.magenta,
   [''] = colors.magenta,
@@ -179,7 +209,7 @@ gls.left[i] = {
     condition = condition.check_git_workspace,
     separator = ' ',
     separator_highlight = {'NONE', colors.bg},
-    highlight = {colors.grey, colors.bg}
+    highlight = {colors.section_bg, colors.bg}
   }
 }
 
@@ -245,7 +275,7 @@ gls.right[j] = {
   DiagnosticError = {
     provider = 'DiagnosticError',
     icon = icons.diagnostic.error,
-    highlight = {colors.error_red, colors.bg}
+    highlight = {colors.red, colors.bg}
   }
 }
 
@@ -279,7 +309,7 @@ gls.right[j] = {
   DiagnosticInfo = {
     provider = 'DiagnosticInfo',
     icon = icons.diagnostic.info,
-    highlight = {colors.info_yellow, colors.bg},
+    highlight = {colors.yellow, colors.bg},
   }
 }
 
@@ -322,7 +352,7 @@ gls.right[j] = {
         return true
     end,
     icon = '  ',
-    highlight = {colors.grey, colors.bg}
+    highlight = {colors.fg, colors.bg}
   }
 }
 
@@ -368,7 +398,7 @@ local k = 1
 gls.short_line_left[k] ={
   SFileIcon = {
     provider = 'FileIcon',
-    highlight = { colors.grey, colors.bg },
+    highlight = { colors.fg, colors.bg },
   },
 }
 
@@ -376,7 +406,7 @@ k = k + 1
 gls.short_line_left[k] = {
   SMyFileName = {
     provider = function() return file_name(false, 'GalaxySMyFileName') end,
-    highlight = {colors.grey, colors.bg},
+    highlight = {colors.fg, colors.bg},
     separator = icons.sep.left,
     separator_highlight = {colors.bg, colors.bg}
   }

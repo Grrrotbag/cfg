@@ -7,7 +7,8 @@
 
 
 " Automatically source init.vim when saved.
-autocmd! BufWritePost $MYVIMRC source $MYVIMRC | echom "Reloaded $NVIMRC"
+" autocmd! BufWritePost $MYVIMRC source $MYVIMRC | echom "Reloaded $NVIMRC"
+autocmd! BufWritePost $MYVIMRC source $MYVIMRC
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                            PLUGINS (VIM-PLUG)                         "
@@ -30,6 +31,8 @@ Plug 'folke/trouble.nvim'
 Plug 'folke/todo-comments.nvim'
 Plug 'folke/lsp-colors.nvim'
 Plug 'kosayoda/nvim-lightbulb'
+Plug 'folke/tokyonight.nvim'
+Plug 'akinsho/nvim-bufferline.lua'
 
 Plug 'tpope/vim-surround'                                       " adds surround operator to vim
 Plug 'tpope/vim-commentary'                                     " comment toggle
@@ -41,7 +44,7 @@ Plug 'voldikss/vim-floaterm'                                    " Floating termi
 Plug 'mattn/emmet-vim'                                          " html snippets
 Plug 'alvan/vim-closetag'                                       " auto close tags
 Plug 'godlygeek/tabular'                                        " markdown tables
-Plug 'plasticboy/vim-markdown'                                  " markdown support
+" Plug 'plasticboy/vim-markdown'                                  " markdown support
 Plug 'norcalli/nvim-colorizer.lua'                              " view hex code colors inline
 
 call plug#end()
@@ -51,6 +54,7 @@ lua << EOF
 require('lsp')
 require('treesitter')
 require('completion')
+require('_bufferline')
 require('_colors')
 require('_galaxyline')
 require('_todo-comments')
@@ -80,7 +84,7 @@ set noshowmode                          " do not show mode if galaxyline/airline
 set completeopt=menuone,noselect
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                             LSP KEY BINDINGS                          "
+"                             LSP CONFIG                                "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " >> Lsp key bindings
 nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
@@ -98,6 +102,34 @@ nnoremap <silent> ga    <cmd>Lspsaga code_action<CR>
 xnoremap <silent> ga    <cmd>Lspsaga range_code_action<CR>
 nnoremap <silent> gs    <cmd>Lspsaga signature_help<CR>
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                             VIM COMPE                                 "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+noremap <silent><expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+let g:compe = {}
+let g:compe.enabled = v:true
+let g:compe.autocomplete = v:true
+let g:compe.debug = v:false
+let g:compe.min_length = 1
+let g:compe.preselect = 'enable'
+let g:compe.throttle_time = 80
+let g:compe.source_timeout = 200
+let g:compe.incomplete_delay = 400
+let g:compe.max_abbr_width = 100
+let g:compe.max_kind_width = 100
+let g:compe.max_menu_width = 100
+let g:compe.documentation = v:true
+
+let g:compe.source = {}
+let g:compe.source.path = v:true
+let g:compe.source.buffer = v:true
+let g:compe.source.calc = v:true
+let g:compe.source.nvim_lsp = v:true
+let g:compe.source.nvim_lua = v:true
+let g:compe.source.vsnip = v:true
+let g:compe.source.ultisnips = v:true
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -111,7 +143,7 @@ nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
 nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                               Nvim Tree                               "
+"                               NVIM TREE                               "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " let g:nvim_tree_side = 'right' "left by default
 let g:nvim_tree_width = 40 "30 by default
@@ -216,16 +248,28 @@ if (empty($TMUX))
   endif
 endif
 
-colorscheme one
-set background=dark " for the dark version
+" ONE DARK THEME
+" colorscheme one
+" set background=dark " for the dark version
 " set background=light " for the light version
+
+" TOKYO NIGHT THEME
+colorscheme tokyonight
+
+let g:tokyonight_sidebars = [ "NvimTree", "vim-plug" ]
+" let g:tokyonight_italic_comments = "true"
+" let g:tokyonight_italic_keywords = "false"
+" let g:tokyonight_italic_functions = "false"
+" let g:tokyonight_italic_variables = "false"
+
+
 
 " fix background colours in iTerm2
 highlight Normal ctermbg=NONE
 highlight nonText ctermbg=NONE
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                             Mappings                                  "
+"                             MAPPINGS                                  "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " leader key
@@ -292,7 +336,7 @@ nnoremap <leader>Q :wq<CR>
 nnoremap <leader>d :bd<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                             Terminal                                  "
+"                             TERMINAL                                  "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Terminal Function
@@ -341,7 +385,7 @@ let g:floaterm_wintitle=0
 let g:floaterm_autoclose=1
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                             Auto Close Tags                           "
+"                             AUTO CLOSE TAGS                           "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " filenames like *.xml, *.html, *.xhtml, ...
@@ -391,7 +435,7 @@ let g:closetag_shortcut = '>'
 let g:closetag_close_shortcut = '<leader>>'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                             Markdown                                  "
+"                             MARKDOWN                                  "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " https://secluded.site/vim-as-a-markdown-editor/
 
@@ -416,7 +460,7 @@ let g:vim_markdown_strikethrough = 1
 let g:vim_markdown_autowrite = 1
 let g:vim_markdown_edit_url_in = 'tab'
 let g:vim_markdown_follow_anchor = 1
-
+let g:vim_markdown_folding_disabled = 1
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                           COC                                    "
